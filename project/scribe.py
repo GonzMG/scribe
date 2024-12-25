@@ -1,5 +1,6 @@
 from os import listdir
 from os.path import isfile, join
+import pdfplumber
 
 
 class Scribe:
@@ -27,3 +28,17 @@ class Scribe:
             f for f in listdir(directory_path) if isfile(join(directory_path, f))
         ]
         return onlyfiles
+    
+    def text_extractor(self, file_path: str) -> str:
+        print(f'Extracting text from file {file_path}')
+        text = ''
+        with pdfplumber.open(file_path) as pdf:
+            pages = pdf.pages
+            print(f'Number of pages: {len(pages)}')
+            for i, page in enumerate(pages):
+                print(f'Extracting text from page {i}')
+                extracted_text = page.extract_text_simple(x_tolerance=3, y_tolerance=3)
+                text += extracted_text
+        return text
+
+

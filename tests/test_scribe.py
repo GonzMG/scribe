@@ -75,6 +75,12 @@ class TestScribe(unittest.TestCase):
             os.remove(os.path.join(second_dir, file_name))
         os.rmdir(second_dir)
 
+    def test_extract_text(self):
+        test_files_path = os.path.join(os.path.dirname(__file__), 'files')
+        scribe = Scribe([test_files_path])
+        extracted_text = scribe.text_extractor(os.path.join(test_files_path, 'Lorem_ipsum.pdf'))
+        self.assertIsNotNone(extracted_text)
+
 
 if __name__ == "__main__":
     unittest.main()
