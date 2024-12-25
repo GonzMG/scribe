@@ -1,0 +1,11 @@
+indexer:
+  paths:
+    - local/path/1
+    - local/path/2
+publish:
+  host: host
+  port: port
+  endpoint: test/endpoin
+config:
+    DEBUG: true
+    TESTING: false
