@@ -3,6 +3,8 @@ import tempfile
 import unittest
 
 from project.scribe import Scribe
+from project.domain.file import File, Metadata, FileId
+import uuid
 
 
 class TestScribe(unittest.TestCase):
@@ -31,8 +33,8 @@ class TestScribe(unittest.TestCase):
 
         # Check if all test files are found
         self.assertEqual(len(files), len(self.test_files))
-        for file_name in self.test_files:
-            self.assertIn(file_name, files)
+        for result_file in files:
+            self.assertIn(result_file.name, self.test_files)
 
     def test_indexer(self):
         # Test indexer method
@@ -78,8 +80,10 @@ class TestScribe(unittest.TestCase):
     def test_extract_text(self):
         test_files_path = os.path.join(os.path.dirname(__file__), 'files')
         scribe = Scribe([test_files_path])
-        extracted_text = scribe.text_extractor(os.path.join(test_files_path, 'Lorem_ipsum.pdf'))
-        self.assertIsNotNone(extracted_text)
+        path = os.path.join(test_files_path, 'Lorem_ipsum.pdf')
+        file = File(FileId(uuid.uuid4), Metadata(path), 'Lorem_ipsum.pdf')
+        scribe.text_extractor(file)
+        self.assertIsNotNone(file.extracted_text)
 
 
 if __name__ == "__main__":
