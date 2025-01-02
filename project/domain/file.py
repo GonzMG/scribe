@@ -1,23 +1,35 @@
 from dataclasses import dataclass
 from uuid import UUID
 from datetime import datetime
+import re
 
 
 @dataclass(frozen=True)
 class FileId:
     value: UUID
 
-@dataclass(frozen=True)
+@dataclass()
 class Metadata:
     path: str
     created_a: datetime = None
     updated_at: datetime = None
+    extension: str = ""
+
+    def extract_extension(self):
+        x = re.findall("\.[0-9a-z]+$", self.path)
+        if len(x) == 0:
+            return
+        self.extension = x[0]
+
 
 class File:
     def __init__(self, id: FileId, metadata: Metadata, name: str):
         self._id = id
         self._name = name
+
+        metadata.extract_extension()
         self._metadata = metadata
+
 
     @property
     def id(self) -> FileId:

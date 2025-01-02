@@ -24,6 +24,9 @@ class Scribe:
         ]
         self.docs_found = len(all_files)
 
+        map(self.text_extractor, all_files)
+        self.docs_read = len(all_files)
+
         return all_files
 
     def directory_reader(self, directory_path: str) -> [File]:
@@ -41,6 +44,9 @@ class Scribe:
                     ),
                     f
                 )
+                # Only PDF suported now
+                if file.metadata.extension != ".pdf":
+                    continue
                 files_to_return.append(file)
                 
         return files_to_return
