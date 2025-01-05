@@ -7,5 +7,8 @@ publish:
   port: port
   endpoint: test/endpoin
 config:
-    DEBUG: true
-    TESTING: false
+  DEBUG: true
+  TESTING: false
+elasticsearch:
+  host: localhost
+  port: 9200
